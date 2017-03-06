@@ -40,13 +40,14 @@ class UserCreate(APIView):
         if serializer.is_valid():
             serializer.save()
             user = User.objects.get(username=serializer.data['username'])
+            
             jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
             jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-            print("\n\n*-*-*-*-*-", user, '\n\n\n')
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
-            print("------------------------" + token)
-
-            return Response(token, status=status.HTTP_201_CREATED)
+            response_dict = {
+                'token': token
+            }
+            return Response(response_dict, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
