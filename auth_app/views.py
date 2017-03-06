@@ -23,13 +23,6 @@ class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-# class UserCreate(generics.ListCreateAPIView):
-#     """
-#     Create new by POST[username, password]
-#     """
-#     permission_classes = (AllowAny,)
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
 
 
 class UserCreate(APIView):
