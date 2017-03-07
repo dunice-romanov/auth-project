@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   onClickLogin(username, password) {
-    this.loginService.login(username, password)
+    this.loginService.login(username, password)            
                       .subscribe(
                         data => console.log(`Login: ${data['token']  }`),
                         error => this.errorHandler(error));

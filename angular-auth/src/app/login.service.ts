@@ -68,6 +68,7 @@ export class LoginService {
     return JSON.parse(tokenString)
   }
 
+
   /*
     If token exists in localStorage -> return true
     Else -> return false
@@ -77,7 +78,7 @@ export class LoginService {
     if (tokenString !== null) { return true; }
     return false;
   }
-
+  
   /*
     Log in user by username:password, set token to localSto
     return UserToken object to subscriber with actual token and username
