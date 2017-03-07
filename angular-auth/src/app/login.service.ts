@@ -142,6 +142,10 @@ export class LoginService {
     return Observable.throw(this.EXCEPTION_INPUT_TOKEN_IS_NULL);    //exception
   }
 
+  isAuthenticated() {
+    return false;
+  }
+
   /*
     Refresh input token:
       If succses -> return new token as string

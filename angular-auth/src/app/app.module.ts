@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 
+import { AuthGuard } from './guards/auth.guard'
+import { LoginService } from './login.service'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,8 +23,13 @@ import { HomeComponent } from './home/home.component';
     HttpModule,
     RouterModule.forRoot([
       {
+        path: '',
+        component: LoginComponent
+      },
+      {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'login',
@@ -29,7 +37,7 @@ import { HomeComponent } from './home/home.component';
       }
     ])
   ],
-  providers: [],
+  providers: [AuthGuard, LoginService],
   bootstrap: [AppComponent]
 })
 
