@@ -17,8 +17,11 @@ export class LoginService {
   readonly URL_SIGN_UP = "api-signup/";
   readonly URL_REFRESH_TOKEN = "api-token-refresh/";
   readonly URL_VERIFY_TOKEN = "api-token-verify/";
+
   readonly CONTENT_TYPE_HEAD = 'Content-Type';
   readonly CONTEXT_TYPE_BODY = 'application/json;charset=utf-8';
+
+  readonly EXCEPTION_INPUT_TOKEN_IS_NULL = "INPUT TOKEN IS NULL";
 
   readonly KEY = 'token_key';
 
@@ -122,17 +125,20 @@ export class LoginService {
                     .catch((error:any) => { return Observable.throw(error) });              //throws error!
   }
 
+
   /*
     Refreshes token from localStorage,
     If succsess returns observable
-    Else - null
+    Else - throws observable's custom exception
   */
   refreshToken() {
     let token: string = this.getTokenFromLocalStorage();
+    
     if (token !== null) {
       return this.refreshTokenWithInput(token['token']);
-    } 
-    return null;
+    }
+
+    return Observable.throw(this.EXCEPTION_INPUT_TOKEN_IS_NULL);    //exception
   }
 
   /*
@@ -145,7 +151,7 @@ export class LoginService {
     let body: string = this.createBodyWithToken(token);
     let headers: Headers = new Headers ({'Content-Type': 
                                 'application/json;charset=utf-8'});
-
+    debugger;
     return this.http.post(url, body, { headers: headers })
                     .map((response: Response) => {
                       let responseObject = response.json();
