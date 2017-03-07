@@ -18,6 +18,7 @@ class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
+
 class UserList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,) 
     queryset = User.objects.all()
@@ -27,7 +28,7 @@ class UserList(generics.ListAPIView):
 
 class UserCreate(APIView):
     """
-    List all snippets, or create a new snippet.
+    List all users, or create a new user and return his token.
     """
     permission_classes = (AllowAny,)
     def get(self, request, format=None):

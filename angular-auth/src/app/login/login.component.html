@@ -1,0 +1,10 @@
+<input type="text" [(ngModel)]="username">
+
+<input type="text" [(ngModel)]="password">
+<br>
+<button (click)="onClickLogin(username, password)">Get token!</button><br>
+<button (click)="onClickRegister(username, password)">Register!</button><br>
+<button (click)="onClickRefresh(username, password)">Refresh!</button><br>
+<button (click)="onClickGetToken()">Get token from storage!</button>
+
+<h1>hello, {{username}}, your pass is: {{password}}</h1>
