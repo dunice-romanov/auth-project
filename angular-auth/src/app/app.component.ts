@@ -9,9 +9,19 @@ import { LoginService } from './login.service'
   providers: [LoginService]
 })
 export class AppComponent {
-  data: string;
-  constructor(private loginService: LoginService) {}
 
-  ngOnInit() {
-  }
+	isAuthenticated: boolean;
+
+	data: string;
+	constructor(private loginService: LoginService) {
+		this.isAuthenticated = false;
+	}
+
+	ngOnInit() {
+		console.log(this.isAuthenticated);
+	}
+
+	isAuth() {
+		console.log(this.loginService.isAuthenticated())
+	}
 }

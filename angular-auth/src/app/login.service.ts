@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Http } from '@angular/http'
+import { Router } from '@angular/router'
 import { RequestOptions, Headers, Response } from '@angular/http'
 
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +11,7 @@ import 'rxjs/add/observable/throw';
 import { UserToken } from "./user"
 
 @Injectable()
-export class LoginService {
+export class LoginService implements OnInit {
 
   readonly URL_HEAD = "http://127.0.0.1:8000/"
   readonly URL_SIGN_IN = "api-token-auth/";
@@ -18,28 +19,17 @@ export class LoginService {
   readonly URL_REFRESH_TOKEN = "api-token-refresh/";
   readonly URL_VERIFY_TOKEN = "api-token-verify/";
 
-  readonly CONTENT_TYPE_HEAD = 'Content-Type';
-  readonly CONTEXT_TYPE_BODY = 'application/json;charset=utf-8';
-
   readonly EXCEPTION_INPUT_TOKEN_IS_NULL = "INPUT TOKEN IS NULL";
 
   readonly KEY = 'token_key';
 
-  constructor(private http: Http) {}
+  private isLoggedIn: boolean;
 
-  /*
-    Set UserToken to LocalStorage with this.KEY
-
-    if UserToken exists -> replace it
-    if UserToken doesn't exist -> set it
-
-    return True if completed
-  */
-  setTokenToLocalStorage(userToken: UserToken) {
-    localStorage.setItem(this.KEY, JSON.stringify(userToken));
-    return true;
+  constructor(private http: Http, private router: Router) {
+    this.isLoggedIn = this.isTokenSetInLocalStorage();
   }
 
+  ngOnInit(){ }
 
   /*
     Updates (string)token in localStorage 
@@ -56,6 +46,7 @@ export class LoginService {
     return false;
   }
 
+
   /*
     Returns UserToken from localStorage by this.KEY
 
@@ -68,16 +59,6 @@ export class LoginService {
     return JSON.parse(tokenString)
   }
 
-
-  /*
-    If token exists in localStorage -> return true
-    Else -> return false
-  */
-  private isTokenSetInLocalStorage() {
-    let tokenString = localStorage.getItem(this.KEY);
-    if (tokenString !== null) { return true; }
-    return false;
-  }
   
   /*
     Log in user by username:password, set token to localSto
@@ -98,13 +79,28 @@ export class LoginService {
                             let responseObject = response.json();
                             let token: UserToken = new UserToken(username, responseObject['token'])
                             this.setTokenToLocalStorage(token);
+                            this.isLoggedIn = true;
+
+                            this.isAuthenticated() //clear this mess
+
                             return token;
                           })
-                          .catch((error:any) => { return Observable.throw(error) });             //throws exception!
+                          .catch((error:any) => { 
+                            return Observable.throw(error) 
+                          });             //throws exception!
                           
   }
 
-
+  /*
+    Removes authentication data from localStorage and service,
+    navigate to Login page
+  */
+  logout(){
+    localStorage.removeItem(this.KEY);
+    this.isLoggedIn = false;
+    this.router.navigate(['login']);
+    this.isAuthenticated();
+  }
   /*
     Register new user by username:password,
     return UserToken object to subscriber with actual token and username
@@ -121,9 +117,12 @@ export class LoginService {
                       let responseObject = response.json();
                       let token: UserToken = new UserToken(username, responseObject['token'])
                       this.setTokenToLocalStorage(token);
+
                       return token;
                     })
-                    .catch((error:any) => { return Observable.throw(error) });              //throws error!
+                    .catch((error:any) => { 
+                      return Observable.throw(error) 
+                    });              //throws error!
   }
 
 
@@ -142,8 +141,9 @@ export class LoginService {
     return Observable.throw(this.EXCEPTION_INPUT_TOKEN_IS_NULL);    //exception
   }
 
-  isAuthenticated() {
-    return false;
+  isAuthenticated(): boolean {
+    console.log(`run isAuthenticated(), state is ${this.isLoggedIn}`);
+    return this.isTokenSetInLocalStorage();
   }
 
   /*
@@ -167,6 +167,20 @@ export class LoginService {
                     .catch((error:any) => { return Observable.throw(error) });            //throws error!
   }
 
+  /*
+    Set UserToken to LocalStorage with this.KEY
+
+    if UserToken exists -> replace it
+    if UserToken doesn't exist -> set it
+
+    return True if completed
+  */
+  private setTokenToLocalStorage(userToken: UserToken) {
+    localStorage.setItem(this.KEY, JSON.stringify(userToken));
+    return true;
+  }
+
+
   private createBodyWithUsernamePassword(username: string, password: string) {
     let body = {
       'username': username,
@@ -180,6 +194,16 @@ export class LoginService {
       'token': token,
     }
     return JSON.stringify(body);
+  }
+
+   /*
+    If token exists in localStorage -> return true
+    Else -> return false
+  */
+  private isTokenSetInLocalStorage() {
+    let tokenString = localStorage.getItem(this.KEY);
+    if (tokenString !== null) { return true; }
+    return false;
   }
 
 }

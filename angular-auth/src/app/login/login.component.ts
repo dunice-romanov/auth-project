@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 
 import { LoginService } from '../login.service'
 
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
 
   observ: any;
 
-  constructor(private loginService: LoginService) { 
+  constructor(private loginService: LoginService, private router: Router) { 
     this.username = ""
     this.password = ""
     this.token = ""
@@ -30,8 +31,14 @@ export class LoginComponent implements OnInit {
   onClickLogin(username, password) {
     this.loginService.login(username, password)            
                       .subscribe(
-                        data => console.log(`Login: ${data['token']  }`),
-                        error => this.errorHandler(error));
+                        data => {
+                          console.log(`Login: ${data['token']  }`);
+                          this.router.navigate(['home']);
+                        },
+                        error => {
+                          this.errorHandler(error);
+                          return;
+                        });
   }
 
   onClickRegister(username, password) {
