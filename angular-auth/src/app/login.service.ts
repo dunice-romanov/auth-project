@@ -46,7 +46,6 @@ export class LoginService implements OnInit {
     return false;
   }
 
-
   /*
     Returns UserToken from localStorage by this.KEY
 
@@ -59,7 +58,30 @@ export class LoginService implements OnInit {
     return JSON.parse(tokenString)
   }
 
-  
+  /*
+    Returns token as string if exists,
+    If token is absent - returns null
+  */
+  getTokenString() {
+    let userToken = this.getTokenFromLocalStorage();
+    if (userToken !== null) {
+      return userToken['token']; 
+    }
+    return null;
+  }
+
+  /*
+    Returns username as string if exists,
+    If token is absent - returns null
+  */
+  getUsername() {
+    let userToken = this.getTokenFromLocalStorage();
+    if (userToken !== null) {
+      return userToken['username']; 
+    }
+    return null;
+  }
+
   /*
     Log in user by username:password, set token to localSto
     return UserToken object to subscriber with actual token and username
@@ -101,6 +123,7 @@ export class LoginService implements OnInit {
     this.router.navigate(['login']);
     this.isAuthenticated();
   }
+
   /*
     Register new user by username:password,
     return UserToken object to subscriber with actual token and username
@@ -125,7 +148,6 @@ export class LoginService implements OnInit {
                     });              //throws error!
   }
 
-
   /*
     Refreshes token from localStorage,
     If succsess returns observable
@@ -142,7 +164,6 @@ export class LoginService implements OnInit {
   }
 
   isAuthenticated(): boolean {
-    console.log(`run isAuthenticated(), state is ${this.isLoggedIn}`);
     return this.isTokenSetInLocalStorage();
   }
 
@@ -180,6 +201,15 @@ export class LoginService implements OnInit {
     return true;
   }
 
+  /*
+    If token exists in localStorage -> return true
+    Else -> return false
+  */
+  private isTokenSetInLocalStorage() {
+    let tokenString = localStorage.getItem(this.KEY);
+    if (tokenString !== null) { return true; }
+    return false;
+  }
 
   private createBodyWithUsernamePassword(username: string, password: string) {
     let body = {
@@ -195,15 +225,4 @@ export class LoginService implements OnInit {
     }
     return JSON.stringify(body);
   }
-
-   /*
-    If token exists in localStorage -> return true
-    Else -> return false
-  */
-  private isTokenSetInLocalStorage() {
-    let tokenString = localStorage.getItem(this.KEY);
-    if (tokenString !== null) { return true; }
-    return false;
-  }
-
 }

@@ -9,7 +9,11 @@ import { LoginService } from '../login.service'
 })
 export class NavigationComponent implements OnInit {
 
-
+	readonly TEXT_HOME = 'Home';
+	readonly TEXT_LOGIN = 'Login';
+	readonly TEXT_REGISTER = 'Register';
+	readonly TEXT_LOGOUT = 'Logout';
+	
 	constructor(private loginService: LoginService) { }
 
 	ngOnInit() {

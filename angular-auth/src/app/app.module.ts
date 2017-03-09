@@ -10,14 +10,16 @@ import { HomeComponent } from './home/home.component';
 
 import { AuthGuard } from './guards/auth.guard'
 import { LoginService } from './login.service';
-import { NavigationComponent } from './navigation/navigation.component'
+import { NavigationComponent } from './navigation/navigation.component';
+import { RegisterComponent } from './register/register.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    NavigationComponent
+    NavigationComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { NavigationComponent } from './navigation/navigation.component'
     RouterModule.forRoot([
       {
         path: '',
-        component: LoginComponent
+        redirectTo: 'home',
+        pathMatch: 'full'
       },
       {
         path: 'home',
@@ -36,6 +39,10 @@ import { NavigationComponent } from './navigation/navigation.component'
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
       }
     ])
   ],

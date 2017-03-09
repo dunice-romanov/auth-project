@@ -45,7 +45,8 @@ export class LoginComponent implements OnInit {
     this.loginService.register(username, password)
                       .subscribe(
                         data => console.log(`Register: ${data['token']}`),
-                        error => this.errorHandler(error));
+                        error => this.errorHandler(error)
+                        );
   }
 
   onClickRefresh(username, password) {

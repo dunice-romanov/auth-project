@@ -1,8 +1,9 @@
-<span>
-	<a routerLink="home">Home</a>
-	<a routerLink="login">Login</a>
+<span *ngIf='!loginService.isAuthenticated()'>
+	<a routerLink="home">{{TEXT_HOME}}</a>
+	<a routerLink="login">{{TEXT_LOGIN}}</a>
+	<a routerLink="register">{{TEXT_REGISTER}}</a>
 </span>
 
-<span>
-	<button (click)="onClickLogout()">Logout</button>
+<span *ngIf='loginService.isAuthenticated()'>
+	<button (click)="onClickLogout()">{{TEXT_LOGOUT}}</button>
 </span>
