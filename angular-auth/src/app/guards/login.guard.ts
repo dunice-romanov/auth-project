@@ -6,14 +6,14 @@ import { CanActivate, ActivatedRouteSnapshot,
 import { LoginService } from "../login.service"
 
 @Injectable()
-export class AuthGuard implements CanActivate{
+export class LoginGuard implements CanActivate{
  
  	constructor(private loginService: LoginService, 
  				private router: Router) { }
 
     canActivate() {
-	    if (!this.loginService.isAuthenticated()) {
-			this.router.navigate(['login']);
+	    if (this.loginService.isAuthenticated()) {
+			this.router.navigate(['home']);
 			return false;
 		}
         return true;

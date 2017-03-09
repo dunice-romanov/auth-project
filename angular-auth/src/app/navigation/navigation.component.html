@@ -1,9 +1,29 @@
-<span *ngIf='!loginService.isAuthenticated()'>
-	<a routerLink="home">{{TEXT_HOME}}</a>
-	<a routerLink="login">{{TEXT_LOGIN}}</a>
-	<a routerLink="register">{{TEXT_REGISTER}}</a>
-</span>
+<div class="container">
+  <div *ngIf='!loginService.isAuthenticated()'>
 
-<span *ngIf='loginService.isAuthenticated()'>
-	<button (click)="onClickLogout()">{{TEXT_LOGOUT}}</button>
-</span>
+  		<nav>
+            <ul class="nav nav-pills float-right">
+
+              <li class="nav-item">
+  				      <a routerLink="login"><div>{{TEXT_LOGIN}}</div></a>
+              </li>
+
+              <li class="nav-item">
+                <a routerLink="register"><div>{{TEXT_REGISTER}}</div></a>
+              </li>
+
+            </ul>
+  	</nav>
+
+  </div>
+
+  <div *ngIf='loginService.isAuthenticated()'>
+  	<nav>
+          <ul class="nav nav-pills float-right">
+              <li class="nav-item">
+  				      <button (click)="onClickLogout()" class="btn btn-default"><div>{{TEXT_LOGOUT}}</div></button>
+              </li>
+          </ul>
+  	</nav>
+  </div>
+</div>

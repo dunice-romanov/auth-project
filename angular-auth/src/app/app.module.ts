@@ -7,11 +7,12 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-
-import { AuthGuard } from './guards/auth.guard'
-import { LoginService } from './login.service';
 import { NavigationComponent } from './navigation/navigation.component';
 import { RegisterComponent } from './register/register.component'
+
+import { LoginService } from './login.service';
+
+import { AppRoutingModule } from './app-routing/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -25,28 +26,29 @@ import { RegisterComponent } from './register/register.component'
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot([
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-      },
-      {
-        path: 'home',
-        component: HomeComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'login',
-        component: LoginComponent
-      },
-      {
-        path: 'register',
-        component: RegisterComponent,
-      }
-    ])
+    AppRoutingModule
+    // RouterModule.forRoot([
+    //   {
+    //     path: '',
+    //     redirectTo: 'home',
+    //     pathMatch: 'full'
+    //   },
+    //   {
+    //     path: 'home',
+    //     component: HomeComponent,
+    //     canActivate: [AuthGuard]
+    //   },
+    //   {
+    //     path: 'login',
+    //     component: LoginComponent
+    //   },
+    //   {
+    //     path: 'register',
+    //     component: RegisterComponent,
+    //   }
+    //])
   ],
-  providers: [AuthGuard, LoginService],
+  providers: [LoginService],
   bootstrap: [AppComponent]
 })
 

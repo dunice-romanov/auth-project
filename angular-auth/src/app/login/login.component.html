@@ -1,10 +1,15 @@
-<div>
-	<input type="text" [(ngModel)]="username" placeholder={{TEXT_PLACEHOLDER_USERNAME}}>
-	<input type="password" [(ngModel)]="password" placeholder={{TEXT_PLACEHOLDER_PASSWORD}}>
+<div class="container">
+	<form>
+	  <div class="form-group">
+	    <label for="inputUsername">{{TEXT_PLACEHOLDER_USERNAME}}</label>
+	    <input type="text" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" class="form-control" id="inputUsername" placeholder={{TEXT_PLACEHOLDER_USERNAME}}>
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="inputPassword">{{TEXT_PLACEHOLDER_PASSWORD}}</label>
+	    <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" id="inputPassword" placeholder={{TEXT_PLACEHOLDER_PASSWORD}}>
+	  </div>
+	  
+	  <button type="submit" class="btn btn-default" (click)='onClickLogin(username, password)'>{{TEXT_BUTTON_LOGIN}}</button>
+	</form>
 </div>
-
-<button (click)='onClickLogin(username, password)'>{{TEXT_BUTTON_LOGIN}}</button>
-
-
-
-<h1>hello, {{username}}, your pass is: {{password}}</h1>
