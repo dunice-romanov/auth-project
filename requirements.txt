@@ -4,6 +4,7 @@ coreapi==2.2.4
 coreapi-cli==1.0.6
 coreschema==0.0.4
 Django==1.10.5
+django-cors-headers==2.0.2
 djangorestframework==3.5.4
 djangorestframework-jwt==1.9.0
 httpie==0.9.9
