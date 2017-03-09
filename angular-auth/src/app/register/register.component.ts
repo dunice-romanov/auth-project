@@ -11,7 +11,7 @@ import { LoginService } from '../login.service';
 })
 export class RegisterComponent implements OnInit {
 
-	readonly TEXT_REGISTER = 'REGISTER';
+	readonly TEXT_REGISTER = 'Register';
 
 	private username: string;
 	private	password: string;
@@ -25,15 +25,14 @@ export class RegisterComponent implements OnInit {
   ngOnInit() { }
 
   /*
-  	Trimms inputs, runs loginService.register.
+  	Trimms username, runs loginService.register().
   	If user registered: navigate to '/home',
   	else - handles error
   	Finally - clears inputs
   */
   onClickRegister(username, password) {
   	let trimmedUsername = this.username.trim();
-  	let trimmedPassword = this.password.trim();
-  	this.loginService.register(trimmedUsername, trimmedPassword)
+  	this.loginService.register(trimmedUsername, password)
   										.subscribe(
   											data => {
   												console.log(`Register: ${data['token']}`);
@@ -55,10 +54,12 @@ export class RegisterComponent implements OnInit {
   }
 
   /*
-  	Handles errors from loginService
+  	Handles register button's errors
   */
   private errorHandler(error) {
-  	console.log(error);
+    debugger;
+    console.log(error);
+    console.log(error['non_field_errors']);
   }
 
 }

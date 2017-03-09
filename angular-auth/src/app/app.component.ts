@@ -5,23 +5,16 @@ import { LoginService } from './login.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [LoginService]
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
 
-	isAuthenticated: boolean;
-
-	data: string;
-	constructor(private loginService: LoginService) {
-		this.isAuthenticated = false;
+	constructor(private login: LoginService) {
 	}
 
-	ngOnInit() {
-		console.log(this.isAuthenticated);
-	}
+	ngOnInit() { }
 
 	isAuth() {
-		console.log(this.loginService.isAuthenticated())
+		console.log(`isAuth: ${this.login.isAuthenticated()}`)
 	}
 }

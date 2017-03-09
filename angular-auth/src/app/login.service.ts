@@ -21,15 +21,22 @@ export class LoginService implements OnInit {
 
   readonly EXCEPTION_INPUT_TOKEN_IS_NULL = "INPUT TOKEN IS NULL";
 
+  readonly ERROR_USERNAME_ALREADY_EXISTS = '';
+  readonly ERROR_USERNAME_PASS_INVALID = '';
+  readonly ERROR_SERVER_IS_UNAVAILABLE = '';
+  readonly ERROR_USERNAME_INVALID_SYMBOLS = '';
+
+
   readonly KEY = 'token_key';
 
   private isLoggedIn: boolean;
 
   constructor(private http: Http, private router: Router) {
-    this.isLoggedIn = this.isTokenSetInLocalStorage();
+    this.setIsLoggedIn(this.isTokenSetInLocalStorage(), 
+                                         'constructor');
   }
 
-  ngOnInit(){ }
+  ngOnInit() { }
 
   /*
     Updates (string)token in localStorage 
@@ -82,8 +89,17 @@ export class LoginService implements OnInit {
     return null;
   }
 
+  /* 
+    Returns true if user is authorized,
+    Else - returns false
+  */
+  isAuthenticated(): boolean {
+    //return this.isLoggedIn;
+    return this.isTokenSetInLocalStorage();
+  }
+
   /*
-    Log in user by username:password, set token to localSto
+    Log in user by username:password, set token to localStorage
     return UserToken object to subscriber with actual token and username
 
     If any errors happens: throws an erorr
@@ -95,22 +111,30 @@ export class LoginService implements OnInit {
     let body: string = this.createBodyWithUsernamePassword(username, password)
     let headers: Headers = new Headers ({'Content-Type':  'application/json;charset=utf-8'});
 
-    return this.http.post(url, body, 
-                          { headers: headers })
-                          .map((response: Response) => {
-                            let responseObject = response.json();
-                            let token: UserToken = new UserToken(username, responseObject['token'])
-                            this.setTokenToLocalStorage(token);
-                            this.isLoggedIn = true;
+    return this.createToken(username, password, url, body, headers);                          
+  }
 
-                            this.isAuthenticated() //clear this mess
-
-                            return token;
-                          })
-                          .catch((error:any) => { 
-                            return Observable.throw(error) 
-                          });             //throws exception!
-                          
+  /*
+    Send post request to url with body(username, string), headers
+    If success - set token to localStorage, 
+               - set isLoggedIn=true,
+               - returns Observable with UserToken
+    Else - throws Observable with error 
+  */
+  createToken(username: string, password: string, url: string, 
+              body: string, headers: Headers) {
+        return this.http.post(url, body, { headers: headers })
+                    .map((response: Response) => {
+                      let responseObject = response.json();
+                      let token: UserToken = new UserToken(username, responseObject['token'])
+                      this.setTokenToLocalStorage(token);
+                      this.setIsLoggedIn(true, 'register, map');
+                      return token;
+                    })
+                    .catch((error:any) => { 
+                      this.setIsLoggedIn(false, 'register, error');
+                      return Observable.throw(error) 
+                    });              //throws error!
   }
 
   /*
@@ -119,9 +143,8 @@ export class LoginService implements OnInit {
   */
   logout(){
     localStorage.removeItem(this.KEY);
-    this.isLoggedIn = false;
+    this.setIsLoggedIn(false, 'logout');
     this.router.navigate(['login']);
-    this.isAuthenticated();
   }
 
   /*
@@ -135,17 +158,8 @@ export class LoginService implements OnInit {
     let body: string = this.createBodyWithUsernamePassword(username, password);
     let headers: Headers = new Headers ({'Content-Type': 
                                 'application/json;charset=utf-8'});
-    return this.http.post(url, body, { headers: headers })
-                    .map((response: Response) => {
-                      let responseObject = response.json();
-                      let token: UserToken = new UserToken(username, responseObject['token'])
-                      this.setTokenToLocalStorage(token);
 
-                      return token;
-                    })
-                    .catch((error:any) => { 
-                      return Observable.throw(error) 
-                    });              //throws error!
+    return this.createToken(username, password, url, body, headers);
   }
 
   /*
@@ -163,8 +177,8 @@ export class LoginService implements OnInit {
     return Observable.throw(this.EXCEPTION_INPUT_TOKEN_IS_NULL);    //exception
   }
 
-  isAuthenticated(): boolean {
-    return this.isTokenSetInLocalStorage();
+  private setIsLoggedIn(value: boolean, from: any) {
+    this.isLoggedIn = value;
   }
 
   /*
@@ -177,7 +191,6 @@ export class LoginService implements OnInit {
     let body: string = this.createBodyWithToken(token);
     let headers: Headers = new Headers ({'Content-Type': 
                                 'application/json;charset=utf-8'});
-    debugger;
     return this.http.post(url, body, { headers: headers })
                     .map((response: Response) => {
                       let responseObject = response.json();
@@ -205,7 +218,7 @@ export class LoginService implements OnInit {
     If token exists in localStorage -> return true
     Else -> return false
   */
-  private isTokenSetInLocalStorage() {
+  private isTokenSetInLocalStorage(): boolean {
     let tokenString = localStorage.getItem(this.KEY);
     if (tokenString !== null) { return true; }
     return false;

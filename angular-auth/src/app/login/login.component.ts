@@ -11,63 +11,57 @@ import { LoginService } from '../login.service'
 })
 export class LoginComponent implements OnInit {
 
-  username: string;
-  password: string;
+  readonly TEXT_PLACEHOLDER_USERNAME = 'Input user';
+  readonly TEXT_PLACEHOLDER_PASSWORD = 'Input password';
+  readonly TEXT_BUTTON_LOGIN = 'Login!';
 
-  token: string;
+  private username: string;
+  private password: string;
 
-  observ: any;
-
-  constructor(private loginService: LoginService, private router: Router) { 
-    this.username = ""
-    this.password = ""
-    this.token = ""
-    this.observ = ""
+  constructor(private loginService: LoginService, 
+              private router: Router) { 
+    this.username = "";
+    this.password = "";
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
+  /*
+    Trimms username, runs loginService.login().
+    If user registered: navigate to '/home',
+    else - handles error
+    Finally - clears inputs
+  */
   onClickLogin(username, password) {
-    this.loginService.login(username, password)            
+    let trimmedUsername: string = this.username.trim();
+    
+    this.loginService.login(trimmedUsername, password)            
                       .subscribe(
                         data => {
-                          console.log(`Login: ${data['token']  }`);
+                          console.log(`Login: ${data['token']}`);
                           this.router.navigate(['home']);
                         },
                         error => {
                           this.errorHandler(error);
-                          return;
                         });
+    this.clearInputs();                  
   }
 
-  onClickRegister(username, password) {
-    this.loginService.register(username, password)
-                      .subscribe(
-                        data => console.log(`Register: ${data['token']}`),
-                        error => this.errorHandler(error)
-                        );
+  /*
+    Clears inputs
+  */
+  private clearInputs() {
+    this.username = '';
+    this.password = '';
   }
 
-  onClickRefresh(username, password) {
-    this.loginService.refreshToken()
-                      .subscribe(
-                        data => console.log(`Token: ${data['token']}`),
-                        error => this.errorHandler(error));
-  }
-
-
-  onClickGetToken() {
-    console.log(localStorage.getItem(this.loginService.KEY));
-  }
-
-  errorHandler(error) {
+  /*
+    Handles login button's errors
+  */
+  private errorHandler(error) {
+    debugger;
     console.log(error);
-    // let objError = error.json();
-    // let errorString = objError['non_field_errors'][0];
-    // debugger;
-    // if (objError['non_field_errors'][0] === 'Unable to login with provided credentials.')
-    //   alert('Whoops! Re-enter login');
+    console.log(error['non_field_errors'][0]);
   }
 
 }

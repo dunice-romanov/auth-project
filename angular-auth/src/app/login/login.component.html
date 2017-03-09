@@ -1,11 +1,10 @@
 <div>
-	<input type="text" [(ngModel)]="username">
-	<input type="password" [(ngModel)]="password">
+	<input type="text" [(ngModel)]="username" placeholder={{TEXT_PLACEHOLDER_USERNAME}}>
+	<input type="password" [(ngModel)]="password" placeholder={{TEXT_PLACEHOLDER_PASSWORD}}>
 </div>
 
-<button (click)="onClickLogin(username, password)">Get token!</button><br>
-<button (click)="onClickRegister(username, password)">Register!</button><br>
-<button (click)="onClickRefresh(username, password)">Refresh!</button><br>
-<button (click)="onClickGetToken()">Get token from storage!</button>
+<button (click)='onClickLogin(username, password)'>{{TEXT_BUTTON_LOGIN}}</button>
+
+
 
 <h1>hello, {{username}}, your pass is: {{password}}</h1>
