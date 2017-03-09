@@ -27,15 +27,21 @@ class UserList(generics.ListAPIView):
 
 
 class UserCreate(APIView):
-    """
-    List all users, or create a new user and return his token.
-    """
-    permission_classes = (AllowAny,)
-    def get(self, request, format=None):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+    # """
+    # List all users, or create a new user and return his token.
+    # """
+    # permission_classes = (AllowAny,)
+    # def get(self, request, format=None):
+    #     users = User.objects.all()
+    #     serializer = UserSerializer(users, many=True)
+    #     return Response(serializer.data)
 
+    """
+    Creates user by post request with post[username, password]
+
+    If creates - returns token,
+    Else - returns response error
+    """
     def post(self, request, format=None):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():

@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   readonly TEXT_ERROR_INVALID_USERNAME_PASSWORD = 'Invalid username or password';
   readonly TEXT_ERROR_SERVER_PROBLEM = 'Server is unavailable';
+  readonly TEXT_ERROR_BLANK_INPUT = 'Error: Your inputs are blank';
 
   private username: string;
   private password: string;
@@ -59,7 +60,8 @@ export class LoginComponent implements OnInit {
   }
 
   /*
-    Handles login button's errors
+    Handles login button's errors,
+    cases with blank field errors should'n have breaks
   */
   private errorHandler(error) {
 
@@ -67,7 +69,13 @@ export class LoginComponent implements OnInit {
       case this.loginService.ERROR_USERNAME_PASS_INVALID:
         alert(this.TEXT_ERROR_INVALID_USERNAME_PASSWORD)
         break;
-      
+
+      case this.loginService.ERROR_BLANK_PASSWORD_FIELD:                  //it's okay without break
+      case this.loginService.ERROR_BLANK_USERNAME_FIELD:                  //it's okay without break
+      case this.loginService.ERROR_BLANK_USERNAME_AND_PASSWORD_FIELDS:
+        alert(this.TEXT_ERROR_BLANK_INPUT);
+        break;
+
       default:
         alert(this.TEXT_ERROR_SERVER_PROBLEM);
         break;

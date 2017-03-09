@@ -17,9 +17,9 @@ export class RegisterComponent implements OnInit {
   readonly TEXT_REGISTER = 'Register';
 
   readonly TEXT_ERROR_USER_EXISTS = 'User is already exists';
-  readonly TEXT_ERROR_BAD_SYMBOLS = `Enter a valid username. 
-                                      This value may contain only letters, numbers, and @/./+/-/_ characters.`;
+  readonly TEXT_ERROR_BAD_SYMBOLS = `Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters.`;
   readonly TEXT_ERROR_SERVER_PROBLEM = 'Server is unavailable';
+  readonly TEXT_ERROR_BLANK_INPUT = 'Error: Your inputs are blank';
 	
   private username: string;
 	private	password: string;
@@ -63,6 +63,7 @@ export class RegisterComponent implements OnInit {
 
   /*
   	Handles register button's errors
+    cases with blank field errors should'n have breaks
   */
   private errorHandler(error) {
 
@@ -73,6 +74,13 @@ export class RegisterComponent implements OnInit {
       case this.loginService.ERROR_USERNAME_INVALID_SYMBOLS:
         alert(this.TEXT_ERROR_BAD_SYMBOLS);
         break;
+
+      case this.loginService.ERROR_BLANK_PASSWORD_FIELD:                  //it's okay without break
+      case this.loginService.ERROR_BLANK_USERNAME_FIELD:                  //it's okay without break
+      case this.loginService.ERROR_BLANK_USERNAME_AND_PASSWORD_FIELDS:
+        alert(this.TEXT_ERROR_BLANK_INPUT);
+        break;
+
       default:
         alert(this.TEXT_ERROR_SERVER_PROBLEM);
         break;

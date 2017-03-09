@@ -24,9 +24,10 @@ export class LoginService implements OnInit {
   readonly ERROR_USERNAME_ALREADY_EXISTS = JSON.stringify({"username":["A user with that username already exists."]});
   readonly ERROR_USERNAME_PASS_INVALID = JSON.stringify({"non_field_errors":["Unable to login with provided credentials."]});
   readonly ERROR_USERNAME_INVALID_SYMBOLS = JSON.stringify({"username":["Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters."]});
-
-
-
+  readonly ERROR_BLANK_PASSWORD_FIELD = JSON.stringify({"password":["This field may not be blank."]});
+  readonly ERROR_BLANK_USERNAME_FIELD = JSON.stringify({"username":["This field may not be blank."]});
+  readonly ERROR_BLANK_USERNAME_AND_PASSWORD_FIELDS = JSON.stringify({"password":["This field may not be blank."],"username":["This field may not be blank."]});
+  
   readonly KEY = 'token_key';
 
   private isLoggedIn: boolean;
