@@ -1,3 +1,23 @@
 <div class="container">
 	<h1>Hello, <b>{{username}}</b></h1>
+
+	<div *ngIf="userList.length">
+		<table>
+
+			<tr>
+				<th>{{TEXT_USERNAME}}</th>
+				<th>{{TEXT_HASH_PASSWORD}}</th>
+			</tr>
+
+			<tr *ngFor="let user of userList">
+				<td>{{user.username}}</td>
+				<td>{{user['password']}}</td>
+			</tr>
+
+		</table>
+	</div>
+
+	<button (click)='onClickGetUserList()'>{{TEXT_UPDATE_USERLIST}}</button>
 </div>
+
+

@@ -1,7 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Http } from '@angular/http'
-import { Router } from '@angular/router'
-import { RequestOptions, Headers, Response } from '@angular/http'
+import { Http, RequestOptions, Headers, Response } from '@angular/http';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -13,7 +12,7 @@ import { UserToken } from "./user"
 @Injectable()
 export class LoginService implements OnInit {
 
-  readonly URL_HEAD = "http://127.0.0.1:8000/"
+  readonly URL_HEAD = "http://127.0.0.1:8000/";
   readonly URL_SIGN_IN = "api-token-auth/";
   readonly URL_SIGN_UP = "api-signup/";
   readonly URL_REFRESH_TOKEN = "api-token-refresh/";
