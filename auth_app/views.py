@@ -29,7 +29,7 @@ class UserCreate(APIView):
     """
     List all users, or create a new user and return his token.
     """
-
+    permission_classes = (AllowAny,)
     """
     Creates user by post request with post[username, password]
 
