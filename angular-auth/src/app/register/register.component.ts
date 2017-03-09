@@ -82,6 +82,7 @@ export class RegisterComponent implements OnInit {
         break;
 
       default:
+        debugger;
         alert(this.TEXT_ERROR_SERVER_PROBLEM);
         break;
     }
