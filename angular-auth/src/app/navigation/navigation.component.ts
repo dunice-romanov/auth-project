@@ -13,12 +13,16 @@ export class NavigationComponent implements OnInit {
 	readonly TEXT_LOGIN = 'Login';
 	readonly TEXT_REGISTER = 'Register';
 	readonly TEXT_LOGOUT = 'Logout';
+	readonly TEXT_BRAND = 'My own homepage';
 	
 	constructor(private loginService: LoginService) { }
 
 	ngOnInit() {
 	}
-
+	
+	/*
+	Logout user by clicking the button
+	*/
 	onClickLogout() {
 		this.loginService.logout();
 	}

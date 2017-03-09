@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   readonly TEXT_HASH_PASSWORD = 'Hash password';
   readonly TEXT_UPDATE_USERLIST = 'Update users';
 
+  readonly TEXT_ERROR_SERVER_PROBLEM = 'Server is unavailable'
 	private username: string;
   private userList: User[];
 
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit {
   }
 
   errorHandler(error) {
-    debugger;
+    alert(this.TEXT_ERROR_SERVER_PROBLEM);
+    this.loginService.logout();
   }
 }
