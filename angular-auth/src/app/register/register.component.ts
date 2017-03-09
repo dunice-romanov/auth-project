@@ -11,9 +11,17 @@ import { LoginService } from '../login.service';
 })
 export class RegisterComponent implements OnInit {
 
-	readonly TEXT_REGISTER = 'Register';
+  readonly TEXT_PLACEHOLDER_USERNAME = 'Input user';
+  readonly TEXT_PLACEHOLDER_PASSWORD = 'Input password';
+	
+  readonly TEXT_REGISTER = 'Register';
 
-	private username: string;
+  readonly TEXT_ERROR_USER_EXISTS = 'User is already exists';
+  readonly TEXT_ERROR_BAD_SYMBOLS = `Enter a valid username. 
+                                      This value may contain only letters, numbers, and @/./+/-/_ characters.`;
+  readonly TEXT_ERROR_SERVER_PROBLEM = 'Server is unavailable';
+	
+  private username: string;
 	private	password: string;
 
   constructor(private loginService: LoginService,
@@ -57,9 +65,18 @@ export class RegisterComponent implements OnInit {
   	Handles register button's errors
   */
   private errorHandler(error) {
-    debugger;
-    console.log(error);
-    console.log(error['non_field_errors']);
+
+    switch (error['_body']) {
+      case this.loginService.ERROR_USERNAME_ALREADY_EXISTS:
+        alert(this.TEXT_ERROR_USER_EXISTS)
+        break;
+      case this.loginService.ERROR_USERNAME_INVALID_SYMBOLS:
+        alert(this.TEXT_ERROR_BAD_SYMBOLS);
+        break;
+      default:
+        alert(this.TEXT_ERROR_SERVER_PROBLEM);
+        break;
+    }
   }
 
 }

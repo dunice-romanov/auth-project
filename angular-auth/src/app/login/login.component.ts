@@ -15,6 +15,9 @@ export class LoginComponent implements OnInit {
   readonly TEXT_PLACEHOLDER_PASSWORD = 'Input password';
   readonly TEXT_BUTTON_LOGIN = 'Login!';
 
+  readonly TEXT_ERROR_INVALID_USERNAME_PASSWORD = 'Invalid username or password';
+  readonly TEXT_ERROR_SERVER_PROBLEM = 'Server is unavailable';
+
   private username: string;
   private password: string;
 
@@ -59,9 +62,16 @@ export class LoginComponent implements OnInit {
     Handles login button's errors
   */
   private errorHandler(error) {
-    debugger;
-    console.log(error);
-    console.log(error['non_field_errors'][0]);
+
+    switch (error['_body']) {
+      case this.loginService.ERROR_USERNAME_PASS_INVALID:
+        alert(this.TEXT_ERROR_INVALID_USERNAME_PASSWORD)
+        break;
+      
+      default:
+        alert(this.TEXT_ERROR_SERVER_PROBLEM);
+        break;
+    }
   }
 
 }

@@ -21,10 +21,10 @@ export class LoginService implements OnInit {
 
   readonly EXCEPTION_INPUT_TOKEN_IS_NULL = "INPUT TOKEN IS NULL";
 
-  readonly ERROR_USERNAME_ALREADY_EXISTS = '';
-  readonly ERROR_USERNAME_PASS_INVALID = '';
-  readonly ERROR_SERVER_IS_UNAVAILABLE = '';
-  readonly ERROR_USERNAME_INVALID_SYMBOLS = '';
+  readonly ERROR_USERNAME_ALREADY_EXISTS = JSON.stringify({"username":["A user with that username already exists."]});
+  readonly ERROR_USERNAME_PASS_INVALID = JSON.stringify({"non_field_errors":["Unable to login with provided credentials."]});
+  readonly ERROR_USERNAME_INVALID_SYMBOLS = JSON.stringify({"username":["Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters."]});
+
 
 
   readonly KEY = 'token_key';

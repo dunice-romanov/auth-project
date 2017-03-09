@@ -1,7 +1,7 @@
 <div>
 	
-	<input type='text' [(ngModel)]="username">
-	<input type="text" [(ngModel)]="password">
+	<input type='text' [(ngModel)]="username" placeholder={{TEXT_PLACEHOLDER_USERNAME}}>
+	<input type="password" [(ngModel)]="password" placeholder={{TEXT_PLACEHOLDER_PASSWORD}}>
 
 	<div>
 		<button (click)="onClickRegister(username, password)">{{TEXT_REGISTER}}</button>
