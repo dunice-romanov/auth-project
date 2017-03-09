@@ -6,40 +6,34 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from auth_app.models import Article
-from auth_app.serializers import ArticleSerializer, UserSerializer
+from auth_app.serializers import UserSerializer
 
 
 from rest_framework_jwt.settings import api_settings
 
 from rest_framework import status
 
-class ArticleList(generics.ListCreateAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-
 
 class UserList(generics.ListAPIView):
+    """
+    Response list of users by get request
+
+    Works only for authorized user
+    """
     permission_classes = (IsAuthenticated,) 
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-
 class UserCreate(APIView):
-    # """
-    # List all users, or create a new user and return his token.
-    # """
-    # permission_classes = (AllowAny,)
-    # def get(self, request, format=None):
-    #     users = User.objects.all()
-    #     serializer = UserSerializer(users, many=True)
-    #     return Response(serializer.data)
+    """
+    List all users, or create a new user and return his token.
+    """
 
     """
     Creates user by post request with post[username, password]
 
-    If creates - returns token,
+    If creates - returns his token,
     Else - returns response error
     """
     def post(self, request, format=None):
