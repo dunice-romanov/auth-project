@@ -11,6 +11,15 @@ import { UserToken } from "./user"
 
 @Injectable()
 export class LoginService implements OnInit {
+  /*
+    Service for authentication on test Django rest server 
+    by JWT. Next function provided:
+      - login()
+      - register()
+      - isAuthenticated()
+      - logout()
+      - refresh token()
+  */
 
   readonly URL_HEAD = "http://127.0.0.1:8000/";
   readonly URL_SIGN_IN = "api-token-auth/";
@@ -38,20 +47,6 @@ export class LoginService implements OnInit {
 
   ngOnInit() { }
 
-  /*
-    Updates (string)token in localStorage 
-    if succssed returns true, else - false
-  */
-  updateTokenInLocalStorage(token: string) {
-    if (this.isTokenSetInLocalStorage()) {
-      let tokenString = localStorage.getItem(this.KEY);
-      let tokenObj = JSON.parse(tokenString);
-      tokenObj['token'] = token;
-      localStorage.setItem(this.KEY, JSON.stringify(tokenObj));
-      return true;
-    }
-    return false;
-  }
 
   /*
     Returns UserToken from localStorage by this.KEY
@@ -94,7 +89,6 @@ export class LoginService implements OnInit {
     Else - returns false
   */
   isAuthenticated(): boolean {
-    //return this.isLoggedIn;
     return this.isTokenSetInLocalStorage();
   }
 
@@ -236,5 +230,20 @@ export class LoginService implements OnInit {
       'token': token,
     }
     return JSON.stringify(body);
+  }
+
+  /*
+    Updates (string)token in localStorage 
+    if succssed returns true, else - false
+  */
+  private updateTokenInLocalStorage(token: string) {
+    if (this.isTokenSetInLocalStorage()) {
+      let tokenString = localStorage.getItem(this.KEY);
+      let tokenObj = JSON.parse(tokenString);
+      tokenObj['token'] = token;
+      localStorage.setItem(this.KEY, JSON.stringify(tokenObj));
+      return true;
+    }
+    return false;
   }
 }
