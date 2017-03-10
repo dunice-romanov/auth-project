@@ -9,12 +9,8 @@ import { LoginService } from './login.service'
 })
 export class AppComponent {
 
-	constructor(private login: LoginService) {
+	constructor() {
 	}
 
 	ngOnInit() { }
-
-	isAuth() {
-		console.log(`isAuth: ${this.login.isAuthenticated()}`)
-	}
 }

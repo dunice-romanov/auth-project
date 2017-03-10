@@ -195,7 +195,6 @@ export class LoginService implements OnInit {
                     .map((response: Response) => {
                       let responseObject = response.json();
                       this.updateTokenInLocalStorage(responseObject['token']);
-                      console.log(responseObject['token']);
                       return responseObject['token'];
                     })
                     .catch((error:any) => { return Observable.throw(error) });            //throws error!

@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
     this.loginService.login(trimmedUsername, password)            
                       .subscribe(
                         data => {
-                          console.log(`Login: ${data['token']}`);
                           this.router.navigate(['home']);
                         },
                         error => {

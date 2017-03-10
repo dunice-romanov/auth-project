@@ -43,7 +43,6 @@ export class RegisterComponent implements OnInit {
   	this.loginService.register(trimmedUsername, password)
   										.subscribe(
   											data => {
-  												console.log(`Register: ${data['token']}`);
   												this.router.navigate(['home']);
   											},
   											error => this.errorHandler(error)
