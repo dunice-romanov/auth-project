@@ -1,4 +1,5 @@
 from django.conf.urls import url, include
+from django.views.generic import RedirectView
 
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_jwt.views import obtain_jwt_token
@@ -14,6 +15,7 @@ urlpatterns = [
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
+    url(r'^', RedirectView.as_view(url='users/')),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

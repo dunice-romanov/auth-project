@@ -1,5 +1,6 @@
 <div class="container">
 	<h1>Hello, <b>{{username}}</b></h1>
+	<button (click)='onClickGetUserList()'>{{TEXT_UPDATE_USERLIST}}</button>
 
 	<div *ngIf="userList.length">
 		<table class='table table-striped table-bordered table-hover'>
@@ -17,7 +18,7 @@
 		</table>
 	</div>
 
-	<button (click)='onClickGetUserList()'>{{TEXT_UPDATE_USERLIST}}</button>
+
 </div>
 
 
