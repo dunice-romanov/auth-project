@@ -27,26 +27,6 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     FormsModule,
     HttpModule,
     AppRoutingModule
-    // RouterModule.forRoot([
-    //   {
-    //     path: '',
-    //     redirectTo: 'home',
-    //     pathMatch: 'full'
-    //   },
-    //   {
-    //     path: 'home',
-    //     component: HomeComponent,
-    //     canActivate: [AuthGuard]
-    //   },
-    //   {
-    //     path: 'login',
-    //     component: LoginComponent
-    //   },
-    //   {
-    //     path: 'register',
-    //     component: RegisterComponent,
-    //   }
-    //])
   ],
   providers: [LoginService],
   bootstrap: [AppComponent]
